@@ -1,0 +1,47 @@
+<html>
+    <head>
+        <title>{% block title %}Creative Repository{% endblock title %}</title>
+        <!--<link rel="stylesheet" type="text/css" href="http://images.eurogamer.net/stock/fonts/proxima.css" />-->
+        <script type="text/javascript" src="/static/jquery-1.6.2.js"></script>
+        <style type="text/css">
+            {% block stylesheet %}
+                body {
+                    background-color: white;
+                    font-family: 'Proxima Nova', sans-serif;
+                    font-weight: normal;
+                    padding: 0px;
+                    margin: 0px;
+                    font-size: 14px;
+                }
+                .header {
+                    background-color: #101010;
+                    color: white;
+                    padding: 0.5em 1em;
+                    font-size: 14px;
+                    border-bottom: 1px solid #000000;
+                }
+                .header strong {
+                    letter-spacing: -1px;
+                }
+                .header strong .fix {
+                    letter-spacing: -3px;
+                }
+                .header strong big {
+                    font-size: 3.5em;
+                    line-height: 14px;
+                    vertical-align: top;
+                    position: relative;
+                    top: -4px;
+                    letter-spacing: -3px;
+                }
+            {% endblock %}
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <strong>EU<span class="fix">R</span><big>&bull;</big>GAMER</strong> Creative Repository
+        </div>
+        {% block content %}
+        {% endblock content %}
+    </body>
+</html>

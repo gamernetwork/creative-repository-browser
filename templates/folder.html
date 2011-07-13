@@ -1,0 +1,233 @@
+{% extends "base.html" %}
+{% block stylesheet %}
+{{ block.super }}
+.header {
+    position: relative;
+    z-index: 10;
+}
+h1 {
+    position: relative;
+    background-color: #e0e0e0;
+    color: #808080;
+    padding: 0.3em 1em;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0px 1px 2px #ffffff;
+    margin: 0px;
+    border-top: 1px solid #f0f0f0;
+    border-bottom: 1px solid #d0d0d0;
+    z-index: 10;
+}
+h1 .divider {
+    font-weight: normal;
+    font-size: 1.2em;
+    vertical-align: middle;
+    color: #e0e0e0;
+    text-shadow: 1px 0px 0px #606060;
+}
+.item {
+    float: left;
+    word-wrap: break-word;
+    width: 128px;
+    height: 96px;
+    margin: 16px 0px;
+    text-align: center;
+    font-size: 12px;
+    /*border: 1px solid #ffffff;
+    border-radius: 7px;
+    background-color: #fcfcfc;
+    box-shadow: 1px 2px 9px rgba( 0, 0, 0, 0.1 ); */
+}
+.file a img {
+    border-radius: 5px;
+    box-shadow: 1px 2px 9px rgba( 0, 0, 0, 0.2 );
+}
+.item a {
+    padding: 13px;
+    margin: 13px;
+    border-radius: 7px;
+}
+.item a:link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+}
+.item a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+.file a:hover img {
+    position: relative;
+    top: -2px;
+    left: -2px;
+    box-shadow: 2px 3px 11px rgba( 0, 0, 0, 0.2 );
+}
+.item a:visited {
+    text-decoration: none;
+    color: inherit;
+}
+.item a.active {
+    text-decoration: none;
+    color: inherit;
+    background-color: #a0d0ff;
+}
+#panel {
+    margin-right: 250px;
+    min-height: 90%;
+}
+#preview {
+    color: white;
+    font-weight: bold;
+    position: fixed;
+    top: 58px;
+    top: 0px;
+    right: 0px;
+    width: 250px;
+    background-color: #606060;
+    padding-top: 6em;
+    text-align: center;
+    bottom: 0px;
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.14, rgb(24,24,24)),
+        color-stop(0.29, rgb(96,96,96))
+    );
+    background-image: -moz-linear-gradient(
+        center top,
+        rgb(24,24,24) 14%,
+        rgb(96,96,96) 29%
+    );
+}
+#preview img.file {
+    border-radius: 7px;
+    box-shadow: 1px 3px 13px rgba( 0, 0, 0, 0.5 );
+}
+#preview .dl {
+    background-color: #e0e0e0;
+    color: #808080;
+    padding: 0.3em 1em;
+    font-size: 15px;
+    font-weight: bold;
+    text-shadow: 0px 1px 2px #ffffff;
+    margin: 0px;
+    border-radius: 7px;
+    border-top: 1px solid #ffffff;
+    border-bottom: 1px solid #d0d0d0;
+    text-decoration: none;
+    background-image: -webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0.04, #e0e0e0),
+        color-stop(0.59, #d0d0d0)
+    );
+    background-image: -moz-linear-gradient(
+        center top,
+        #e0e0e0 4%,
+        #d0d0d0 59%
+    );
+}
+.filestats {
+    display: none;
+    font-weight: normal;
+    color: #c0c0c0;
+}
+.author, .time {
+    color: #ffffff; 
+}
+{% endblock stylesheet %}
+{% block title %}
+{{ folder.repos_path }} &bull;
+{{ block.super }}
+{% endblock title %}
+{% block content %}
+<div id="preview">
+    <img src="/static/folder.svg" width="200" height="200" />
+    <div class="infopanel">
+        <p class="name">{{ folder.basename }}</p>
+        <div class="filestats">
+        <p class="size">0</p>
+        <p>Last modified on <span class="time"></span> by <span class="author"></span></p>
+        <p>
+            <a class="dl" id="dlo" href="#">Download File</a>
+            <br />
+            <br />
+            <br />
+            <a class="dl" id="dlj" href="#">Convert to JPG</a>
+        </p>
+        </div>
+    </div>
+</div>
+<h1><span class="divider">/</span> <a class="root" href="/">&lt;root&gt;</a> {% for level in folder.stack %}<span class="divider">/</span>
+    {% if forloop.last %}
+        {{ level.name }}
+    {% else %}
+        <a href="{{ level.path }}">{{ level.name }}</a>
+    {% endif %}
+{% endfor %}</h1>
+<div id="panel">
+{% for folda in folders %}
+    <div class="item folder">
+        <a title="Double click to open" href="{% url views.folder path=folda.repos_path %}" rel="{{ folda.basename }}|folder|{{ folda.size }}|{{ folda.last_author }}|{{ folda.time }}">
+            <img src="/static/folder.svg" width="64" height="64" />
+            <p>{{ folda.basename }}</p>
+        </a>
+    </div>
+{% endfor %}
+{% for item in items %}
+    <div class="item file">
+        <a title="Double click to open" href="{% url views.getfile path=item.repos_path %}" rel="{{ item.basename }}|file|{{ item.size }}|{{ item.last_author }}|{{ item.time }}">
+            {% if item.previewable %}
+                <img width="64" height="64" src="{% url views.getthumbnail item.thumbnail %}" />
+            {% else %}
+                <img width="64" height="64" src="/static/file.svg" />
+            {% endif %}
+            <p>{{ item.basename }}</p>
+        </a>
+    </div>
+{% endfor %}
+</div>
+<script type="text/javascript">
+    function bytesToSize(bytes) {
+        var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+        if (bytes == 0) return 'n/a';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+    };
+    $( document ).ready( function() {
+        $( ".item a" ).click( function() {
+            $( "#preview img" ).attr( "src", $( "img", this ).attr( "src" ) );
+            deets = $( this ).attr( "rel" ).split( "|" )
+            $( "#preview .name" ).text( deets[ 0 ] );
+            if( deets[ 1 ] == "file" ) { 
+                $( "#preview .size" ).text( bytesToSize( parseInt( deets[ 2 ] ) ) );
+                $( "#preview .author" ).text( deets[ 3 ] );
+                $( "#preview .time" ).text( new Date( parseFloat( deets[ 4 ] ) * 1000 ).toUTCString() );
+                $( "#dlo" ).attr( "href", $( this ).attr( "href" ) );
+                $( "#dlj" ).attr( "href", $( this ).attr( "href" ).replace(/\/getfile\//, '/getconverted/') );
+                $( "#preview .filestats" ).fadeIn();
+                $( "#preview img" ).addClass( "file" );
+            } else {
+                $( "#preview .filestats" ).fadeOut();
+                $( "#preview img" ).removeClass( "file" );
+            }
+
+            $( ".item a" ).removeClass( "active" );
+            $( this ).addClass( "active" );
+            return false;
+        } );
+        $( "#panel" ).click( function() {
+            $( ".item a" ).removeClass( "active" );
+            $( "#preview img" ).attr( "src", "/static/folder.svg" );
+            $( "#preview .filestats" ).fadeOut();
+            $( "#preview .name" ).text( "{{ folder.basename }}" );
+            $( "#preview img" ).removeClass( "file" );
+        } );
+        $( ".item a" ).dblclick( function() {
+            window.location = $( this ).attr( "href" );
+        } );
+    } );
+</script>
+{% endblock content %}
