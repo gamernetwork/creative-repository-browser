@@ -9,6 +9,8 @@ Installation
 
 Currently, CRB must be installed on the same machine as the repository.
 
+0. Install ImageMagick.
+
 1. Create a folder to contain thumbnails and make sure the uid the
 svn server runs as can write to this folder.
 
