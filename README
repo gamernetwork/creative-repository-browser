@@ -1,0 +1,30 @@
+Creative Repository Browser
+---------------------------
+
+A Django powered Subversion browser with visual previews and
+a post commit hook for creating thumbnails.
+
+Installation
+------------
+
+Currently, CRB must be installed on the same machine as the repository.
+
+1. Create a folder to contain thumbnails and make sure the uid the
+svn server runs as can write to this folder.
+
+2. Copy post-commit to the hooks/ folder of your repository.  Make
+sure it has execute permissions.  Edit post-commit to point to your
+thumbnails folder
+
+3. If you have an existing repository, note the HEAD revision and
+run something like this
+
+{{{
+HEAD=1234
+for s in seq 1 $HEAD;
+do
+  /path/to/post-commit /path/to/repos $s
+done
+}}}
+
+4. Edit live.wsgi as you usually would for a Django project.
