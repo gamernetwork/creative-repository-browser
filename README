@@ -27,4 +27,6 @@ do
 done
 }}}
 
-4. Edit live.wsgi as you usually would for a Django project.
+4. Create a settings.py from example, updating paths.  Run as
+development server (python manage.py runserver) or make a .wsgi from
+example and run with apache (others servers are available).
