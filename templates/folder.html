@@ -104,30 +104,31 @@ h1 .divider {
     border-radius: 7px;
     box-shadow: 1px 3px 13px rgba( 0, 0, 0, 0.5 );
 }
-#preview .dl {
-    background-color: #e0e0e0;
-    color: #808080;
+#preview .dl, #preview .dd {
     padding: 0.3em 1em;
     font-size: 15px;
     font-weight: bold;
-    text-shadow: 0px 1px 2px #ffffff;
     margin: 0px;
-    border-radius: 7px;
-    border-top: 1px solid #ffffff;
-    border-bottom: 1px solid #d0d0d0;
+    border-radius: 11px;
+    box-shadow: 0px 1px 3px rgba( 0, 0, 0, 0.3 );
     text-decoration: none;
-    background-image: -webkit-gradient(
-        linear,
-        left top,
-        left bottom,
-        color-stop(0.04, #e0e0e0),
-        color-stop(0.59, #d0d0d0)
-    );
-    background-image: -moz-linear-gradient(
-        center top,
-        #e0e0e0 4%,
-        #d0d0d0 59%
-    );
+}
+#preview .dl {
+    background-color: #e0e0e0;
+    color: #808080;
+    border-top: 1px solid #ffffff;
+    text-shadow: 0px 1px 2px #ffffff;
+    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.04, #e0e0e0), color-stop(0.59, #d0d0d0));
+    background-image: -moz-linear-gradient( center top, #e0e0e0 4%, #d0d0d0 59%);
+}
+#preview .dd {
+    background-color: #808080;
+    color: #505050;
+    border-top: 1px solid #b0b0b0;
+    text-shadow: 0px 1px 2px #d0d0d0;
+    font-size: 13px;
+    background-image: -webkit-gradient( linear, left top, left bottom, color-stop(0.04, #a0a0a0), color-stop(0.59, #808080));
+    background-image: -moz-linear-gradient( center top, #a0a0a0 4%, #808080 59%);
 }
 .filestats {
     display: none;
@@ -136,6 +137,9 @@ h1 .divider {
 }
 .author, .time {
     color: #ffffff; 
+}
+#preview a {
+    color: #90c0ff;
 }
 {% endblock stylesheet %}
 {% block title %}
@@ -154,8 +158,10 @@ h1 .divider {
             <a class="dl" id="dlo" href="#">Download File</a>
             <br />
             <br />
+            <a class="dd" id="dlj" href="#">Convert to JPG</a>
             <br />
-            <a class="dl" id="dlj" href="#">Convert to JPG</a>
+            <br />
+            <a class="dd" id="finf" href="#">File history</a>
         </p>
         </div>
     </div>
@@ -209,6 +215,7 @@ h1 .divider {
                 $( "#dlj" ).attr( "href", $( this ).attr( "href" ).replace(/\/getfile\//, '/getconverted/') );
                 $( "#preview .filestats" ).fadeIn();
                 $( "#preview img" ).addClass( "file" );
+                $( "#finf" ).attr( "href", $( this ).attr( "href" ).replace(/\/getfile\//, '/fileinfo/') );
             } else {
                 $( "#preview .filestats" ).fadeOut();
                 $( "#preview img" ).removeClass( "file" );

@@ -4,7 +4,7 @@ from django.conf.urls.defaults import patterns, include, url
 # from django.contrib import admin
 # admin.autodiscover()
 
-urlpatterns = patterns('csvnbrowse',
+urlpatterns = patterns('crb',
     # Examples:
     # url(r'^$', 'csvnbrowse.views.home', name='home'),
     # url(r'^csvnbrowse/', include('csvnbrowse.foo.urls')),
@@ -16,6 +16,7 @@ urlpatterns = patterns('csvnbrowse',
     # url(r'^admin/', include(admin.site.urls)),
     url(r'^getthumbnail/(?P<path>.*)', 'views.getthumbnail'),
     url(r'^getfile/(?P<path>.*)', 'views.getfile'),
+    url(r'^fileinfo/(?P<path>.*)', 'views.fileinfo'),
     url(r'^getconverted/(?P<path>.*)', 'views.getconverted'),
     url(r'^(?P<path>.*)', 'views.folder'),
 )

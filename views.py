@@ -54,6 +54,18 @@ def folder( request, path ):
     
     return render( request, "folder.html", { "folder": folder, "folders": folders, "items": items } ) 
 
+import datetime
+def fileinfo( request, path ):
+    def updatedate( log ):
+        log.datetime =  datetime.datetime.fromtimestamp( log.date )
+        return log
+
+    log = svnc.log( settings.CSVN_REPOS + path )
+    log = [
+        updatedate( l ) for l in log
+    ]
+    return render( request, "info.html", { "path": path, "log": log } ) 
+
 def getfile( request, path ):
     filename = os.path.basename( path )
     mime = svnc.propget( "svn:mime-type", settings.CSVN_REPOS + path ).itervalues().next()
