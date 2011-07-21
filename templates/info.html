@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block stylesheet %}
+{{ block.super }}
+table {
+    margin: 1em;
+    border-collapse: collapse;
+}
+th, td {
+    text-align: left;
+    padding: 0.2em 1em 1em 0em;
+    border-bottom: 1px solid #e0e0e0;
+}
+{% endblock stylesheet %}
+{% block title %}
+{{ path }} &bull;
+{{ block.super }}
+{% endblock title %}
+{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Revision</th>
+            <th>Date</th>
+            <th>Blame</th>
+            <th>Message</th>
+        </tr>
+    </thead>
+    <tbody>
+{% for l in log %}
+    <tr>
+        <th>{{ l.revision.number }}</th>
+        <td>{{ l.datetime|date:"r" }}</td>
+        <td>{{ l.author }}</td>
+        <td>{{ l.message }}</td>
+    </tr>
+{% endfor %}
+    </tbody>
+</table>
+{% endblock content %}
